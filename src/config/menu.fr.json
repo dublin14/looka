@@ -1,0 +1,273 @@
+{
+  "main": [
+    {
+      "name": "Pages",
+      "hasMegaMenu": true,
+      "testimonial": {
+        "enable": true,
+        "image": "/images/customer-image.png",
+        "content": "La planification strat gique de Looka nous a aid s  am liorer nos processus op rationnels et d couvrir de nouvelles opportunit s de march . Nous avons vu une augmentation remarquable de 25% de notre revenu au cours de l'ann e derni re."
+      },
+      "services": {
+        "name": "SERVICES",
+        "enable": true
+      },
+      "menus": [
+        {
+          "name": "REGULAR PAGES",
+          "enable": true,
+          "children": [
+            {
+              "name": "",
+              "enable": true,
+              "children": [
+                {
+                  "name": "Services",
+                  "url": "/services/"
+                },
+                {
+                  "name": "Services Single",
+                  "url": "/services/service-01/"
+                },
+                {
+                  "name": " tudes de cas",
+                  "url": "/case-studies/"
+                },
+                {
+                  "name": " tudes de cas Single",
+                  "url": "/case-studies/case-studies-01/"
+                },
+                {
+                  "name": "Carri re",
+                  "url": "/career/"
+                },
+                {
+                  "name": "Carri re Single",
+                  "url": "/career/job-01/"
+                }
+              ]
+            },
+            {
+              "name": "",
+              "enable": true,
+              "children": [
+                {
+                  "name": "propos",
+                  "url": "/about/"
+                },
+                {
+                  "name": "quipe",
+                  "url": "/team"
+                },
+                {
+                  "name": "Faq",
+                  "url": "/faq"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "BLOG",
+          "enable": true,
+          "children": [
+            {
+              "name": "LIST",
+              "enable": true,
+              "children": [
+                {
+                  "name": "Classique",
+                  "url": "/blog/"
+                },
+                {
+                  "name": "Moderne",
+                  "url": "/layouts-example/blog-list-modern/"
+                }
+              ]
+            },
+            {
+              "name": "SINGLE",
+              "enable": true,
+              "children": [
+                {
+                  "name": "Minimal",
+                  "url": "/layouts-example/blog-single-minimal/"
+                },
+                {
+                  "name": "Moderne",
+                  "url": "/blog/post-1/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PORTFOLIO LAYOUTS",
+          "enable": true,
+          "children": [
+            {
+              "name": "LIST",
+              "enable": true,
+              "children": [
+                {
+                  "name": "Classique & Masonry",
+                  "url": "/layouts-example/portfolio-classic-masonry"
+                },
+                {
+                  "name": "Overlay & Masonry",
+                  "url": "/layouts-example/portfolio-overlay-masonry"
+                }
+              ]
+            },
+            {
+              "name": "SINGLE",
+              "enable": true,
+              "children": [
+                {
+                  "name": "Moderne",
+                  "url": "/layouts-example/portfolio-single-modern/"
+                },
+                {
+                  "name": "Moderne With Sidebar",
+                  "url": "/case-studies/case-studies-01/"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dropdown",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Exemple 01"
+        },
+        {
+          "name": "Exemple 01"
+        },
+        {
+          "name": "Exemple 01",
+          "hasChildren": true,
+          "children": [
+            {
+              "name": "Exemple 02"
+            },
+            {
+              "name": "Exemple 02",
+              "hasChildren": true,
+              "children": [
+                {
+                  "name": "Exemple 03"
+                },
+                {
+                  "name": "Exemple 03"
+                },
+                {
+                  "name": "Exemple 03"
+                },
+                {
+                  "name": "Exemple 03"
+                },
+                {
+                  "name": "Exemple 03"
+                }
+              ]
+            },
+            {
+              "name": "Exemple 02"
+            }
+          ]
+        },
+        {
+          "name": "Exemple 01"
+        }
+      ]
+    },
+    {
+      "name": "Tarifs",
+      "url": "/pricing/",
+      "badge": {
+        "enable": true,
+        "label": "NOUVEAU",
+        "color": "primary",
+        "type": "text"
+      }
+    },
+    {
+      "name": "Contact",
+      "url": "/contact/",
+      "badge": {
+        "enable": true,
+        "label": "NOUVEAU",
+        "color": "danger",
+        "type": "dot"
+      }
+    }
+  ],
+  "footer_menu": [
+    {
+      "name": "Termes & Conditions",
+      "url": "/"
+    },
+    {
+      "name": "Politique de confidentialit ",
+      "url": "/"
+    }
+  ],
+  "footer_menu_quick_link": [
+    {
+      "name": "  propos de nous",
+      "url": "/"
+    },
+    {
+      "name": "Contactez-nous",
+      "url": "/"
+    },
+    {
+      "name": "Tarifs",
+      "url": "/"
+    },
+    {
+      "name": "T moignages",
+      "url": "/"
+    },
+    {
+      "name": "Membres de l' quipe",
+      "url": "/"
+    },
+    {
+      "name": "Nos services",
+      "url": "/"
+    },
+    {
+      "name": "Documentation",
+      "url": "/"
+    }
+  ],
+  "footer_menu_resources": [
+    {
+      "name": "Blog",
+      "url": "/"
+    },
+    {
+      "name": "Faq",
+      "url": "/"
+    },
+    {
+      "name": " tudes de cas",
+      "url": "/"
+    }
+  ],
+  "footer_menu_legal": [
+    {
+      "name": "Termes de service",
+      "url": "/"
+    },
+    {
+      "name": "Politique de confidentialit ",
+      "url": "/privacy-policy/"
+    }
+  ]
+}

@@ -1,0 +1,514 @@
+// content style
+.prose-styles {
+  @apply prose max-w-none;
+
+  // Typography
+  @apply prose-headings:scroll-mt-32 prose-headings:font-bold prose-headings:mb-[.6em] prose-headings:mt-10 prose-headings:text-dark;
+  @apply prose-h1:text-h1-sm;
+  @apply prose-h2:text-h2-sm;
+  @apply prose-h3:text-h3-sm;
+  @apply prose-h4:text-h4-sm;
+  @apply prose-h5:text-h5-sm;
+  @apply prose-h6:text-h6;
+  @apply prose-strong:font-medium;
+  @apply prose-pre:bg-theme-light;
+  @apply prose-a:underline prose-a:transition prose-a:duration-300 prose-a:text-primary hover:prose-a:text-primary/80 prose-a:font-normal;
+  @apply prose-p:text-text-default prose-p:mt-2 prose-p:mb-3;
+
+  @apply prose-hr:mt-0 prose-hr:mb-[1em] prose-hr:border prose-hr:border-border-default/35;
+  @apply prose-code:px-1 prose-code:text-primary;
+
+  // Image
+  @apply prose-img:max-w-full;
+
+  // Table
+  @apply prose-thead:bg-theme-light;
+  @apply prose-td:relative prose-td:z-10 prose-td:px-3 prose-td:py-[1.125rem];
+  @apply prose-th:relative prose-th:z-10 prose-th:px-4 prose-th:py-[1.125rem] prose-th:text-dark;
+  @apply prose-table:relative prose-table:overflow-hidden prose-table:before:absolute prose-table:before:left-0 prose-table:before:top-0 prose-table:before:h-full prose-table:before:w-full prose-table:before:rounded-[inherit] prose-table:before:border prose-table:before:content-[""];
+
+  // Blockquote
+  @apply prose-blockquote:font-normal prose-blockquote:border-l prose-blockquote:border-primary prose-blockquote:px-8 prose-blockquote:py-0 prose-blockquote:not-italic;
+
+  // Remove Quote for first and last child element inside blockquote
+  blockquote p:first-of-type {
+    @apply before:content-[''];
+  }
+
+  blockquote p:last-of-type {
+    @apply before:content-[''];
+  }
+
+  // Unordered & Ordered List
+  @apply prose-ol:mt-0 prose-ul:mt-0 prose-ul:list-none prose-ul:pl-0 prose-li:text-text-default/90;
+
+  ul {
+    @apply list-none prose-p:mb-0;
+    @apply prose-li:after:content-[""];
+    @apply prose-li:after:w-4 prose-li:after:h-4 prose-li:after:bg-primary/10 prose-li:relative prose-li:after:absolute prose-li:after:left-0 prose-li:after:top-[0.35em] prose-li:pl-8 prose-li:after:rounded-full;
+    @apply prose-li:before:content-[""];
+    @apply prose-li:before:w-1.5 prose-li:before:h-1.5 prose-li:before:bg-primary prose-li:relative prose-li:before:absolute prose-li:before:left-[0.3125rem] prose-li:before:top-[0.6875rem] prose-li:pl-[1.8em] prose-li:before:rounded-full;
+  }
+
+  ol {
+    @apply list-none prose-li:ps-0;
+
+    &,
+    ol {
+      counter-reset: list-counter;
+    }
+
+    > li {
+      @apply relative text-primary;
+      counter-increment: list-counter;
+      &::before {
+        content: counters(list-counter, ".") ". ";
+        @apply absolute right-[101%] opacity-70;
+      }
+    }
+  }
+
+  // Remove spacing for first and last child
+  & > *:first-child {
+    @apply mt-0;
+  }
+
+  & > *:last-child {
+    @apply mb-0;
+  }
+
+  > img:not(:last-child),
+  > pre:not(:last-child),
+  > .testimonial-component:not(:last-child),
+  > .styled-list:not(:last-child),
+  > .image-list-component:not(:last-child),
+  > .stats-component:not(:last-child) {
+    @apply mb-10 #{!important};
+  }
+
+  // Code
+  pre {
+    @apply mb-6 mt-0;
+    @apply rounded-none bg-theme-light #{!important};
+    @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-gray-200;
+
+    > code {
+      @apply block;
+    }
+  }
+
+  // Styled List
+  .styled-list {
+    strong {
+      @apply pe-0 #{!important};
+    }
+    ul {
+      @apply gap-2 mb-0;
+    }
+  }
+
+  // Stats Component
+  .stats-component {
+    @apply mt-[2.66rem];
+
+    .stats-item {
+      @apply xl:gap-20;
+    }
+
+    p {
+      @apply text-white opacity-100;
+    }
+  }
+}
+
+// Fit To Screen (Prevent Screen Flash )
+.fit-to-screen {
+  @apply flex flex-col justify-start;
+  @apply min-h-[102vh];
+}
+
+// Logo Component
+.logo {
+  @apply w-10 #{!important};
+  @apply flex items-center gap-x-4 w-10;
+  &-text {
+    @apply text-2xl tracking-wider xs:text-xl/inherit font-secondary font-normal text-dark;
+  }
+}
+
+// Logo
+.logo-wrapper {
+  @apply flex items-center gap-4;
+}
+// Show main logo in home page and alternate logo in other pages
+header.header-dark {
+  .logo {
+    @apply inline-block;
+  }
+  .logo-alternate {
+    @apply hidden;
+  }
+}
+header {
+  .logo {
+    @apply hidden;
+  }
+  .logo-alternate {
+    @apply inline-block;
+  }
+}
+
+// Show main logo in footer
+footer {
+  .logo {
+    &-text {
+      @apply text-white text-h5;
+    }
+    &-alternate {
+      @apply hidden;
+    }
+  }
+}
+
+// marquee style
+.marquee {
+  --marquee-width: 100%;
+
+  @apply w-[var(--marquee-width)] overflow-x-hidden mx-auto;
+
+  &-pause-on-hover {
+    .marquee-content:hover {
+      animation-play-state: paused;
+    }
+  }
+
+  &-content {
+    animation: marquee var(--marquee-duration) linear infinite
+      var(--marquee-reverse);
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(
+          calc(-1 * var(--marquee-element-width) * var(--marquee-elements))
+        );
+      }
+    }
+  }
+}
+
+.testimonial-gradient-bg {
+  @apply absolute w-[37.9375rem] h-[37.9375rem] left-[calc(50%_-_37.9375rem_/_2_-_0.0313rem)] top-[calc(50%_-_37.9375rem_/_2_+_0.0313rem)] opacity-50;
+
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    var(--accent-color) 0%,
+    #ffffff00 100%
+  );
+}
+
+// banner
+.banner {
+  @apply relative pt-0;
+
+  &-image {
+    @apply absolute -z-10 bottom-0 left-0 w-screen h-[112%] object-cover;
+  }
+}
+
+// Link
+.stretched-link {
+  @apply relative before:absolute before:inset-0;
+}
+
+// form style
+.form-input,
+.hs-select input.form-input,
+.hs-select button.form-input {
+  @apply border border-transparent bg-theme-light py-3.5 px-4 placeholder:opacity-80 text-text-default/80 focus:border-primary;
+  @apply focus:shadow-none focus:ring-0 #{!important};
+
+  // Preline
+  [data-title] {
+    @apply opacity-80 text-text-default/80;
+  }
+}
+[type="text"]:focus,
+input:where(:not([type])):focus,
+[type="email"]:focus,
+[type="url"]:focus,
+[type="password"]:focus,
+[type="number"]:focus,
+[type="date"]:focus,
+[type="datetime-local"]:focus,
+[type="month"]:focus,
+[type="search"]:focus,
+[type="tel"]:focus,
+[type="time"]:focus,
+[type="week"]:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+  @apply border-primary;
+}
+.form-label {
+  @apply block font-normal text-gray-700 mb-2;
+}
+
+// Form Checkbox & Radio
+.form-check-wrapper {
+  @apply space-y-2;
+}
+.form-check {
+  @apply flex items-start gap-4;
+
+  .form-check-label {
+    @apply cursor-pointer leading-relaxed;
+  }
+  .form-radio,
+  .form-checkbox {
+    @apply shrink-0 cursor-pointer transition-colors duration-500;
+    @apply w-4 h-4 mt-1 bg-primary/15 border-0 ring-0 outline-0 ring-primary;
+    @apply focus:outline-0 focus:ring-0 focus:ring-offset-0;
+    @apply checked:mt-[9px] checked:bg-primary checked:ring-primary/15 checked:ml-2 checked:w-2 checked:h-2 checked:bg-none checked:ring-[6px];
+  }
+  .form-radio {
+    @apply w-[18px] h-[18px] checked:ring-[4.8px] checked:w-[9px] checked:h-[9px] checked:ms-[3.5px] checked:me-[4.5px] -ml-px;
+  }
+  .form-checkbox {
+    @apply w-[16px] h-[16px] checked:ring-[5px] checked:w-[6.5008px] checked:h-[6px] checked:ms-[4.4px] checked:me-[6px] me-px;
+  }
+}
+
+// Preline Dropdown
+[data-hs-select-dropdown] {
+  @apply p-1;
+}
+
+// Preline Dropdown Item
+[data-hs-select-dropdown] > div[data-value] {
+  @apply py-1.5 px-3 text-sm text-text-default hover:bg-primary/5 hover:text-dark focus:outline-none focus:bg-primary/5;
+}
+
+// Preline "Search Input" Inside Dropdown
+[data-hs-select-dropdown] > div:not([data-value]) {
+  @apply p-0 focus:outline-none focus:shadow-none focus:ring-0;
+
+  input {
+    @apply py-2 px-3 placeholder:opacity-70;
+  }
+}
+
+// Preline Dropdown "Search Not Found Text"
+[data-hs-select-dropdown] > span {
+  @apply text-text-default opacity-60 py-3;
+}
+
+// Animation
+.has-underline-anim {
+  background-image: linear-gradient(
+    transparent calc(100% - 0.0625rem),
+    black 0.0625rem
+  );
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 0.5s ease-in;
+
+  &:hover {
+    background-size: 100% 100%;
+  }
+}
+
+// Table of Contents style
+.toc {
+  --active-offset: 3.1875rem;
+  &.scroll-menu > ul {
+    @apply before:w-px before:h-4 before:bg-primary before:absolute before:-left-px before:top-0 before:mt-[var(--active-offset)] [&>a]:text-primary before:transition-all before:duration-300 before:ease-in text-[0.8125rem];
+    a {
+      @apply text-text-default;
+    }
+  }
+  ul li:not(:last-child) {
+    @apply pb-1.5 mb-1.5;
+  }
+  &.scroll-menu a.active {
+    @apply text-primary;
+  }
+}
+
+[data-icon]:not(.match-brand-color),
+.has-inherited-colors {
+  *[fill*="#"] {
+    fill: currentColor !important;
+  }
+  *[stroke*="#"] {
+    stroke: currentColor !important;
+  }
+}
+.match-brand-color *[fill="#2562FF"] {
+  @apply fill-primary #{!important};
+}
+
+.match-brand-color *[stroke="#2562FF"] {
+  @apply stroke-primary #{!important};
+}
+
+.match-brand-color *[stop-color="#2562FF"] {
+  stop-color: var(--color-primary) !important;
+}
+
+// Clip Path For Image Overlay Clipping
+.has-clip-path {
+  clip-path: polygon(0 0, 100% 0, 100% 89%, 0% 100%);
+  overflow: hidden;
+}
+
+// Animated Video Play Button
+.has-animated-waves {
+  @apply relative z-10;
+
+  &.waves-white {
+    &::before,
+    &::after {
+      @apply bg-white/35;
+    }
+  }
+  &:not(.waves-white) {
+    &::before,
+    &::after {
+      @apply bg-blue-400/50;
+    }
+  }
+
+  &::before,
+  &::after {
+    @apply content-[""] absolute w-40 h-40 opacity-0 -z-10 rounded-full;
+    animation: waves 1.5s linear infinite;
+  }
+  &::before {
+    animation-delay: 0s;
+  }
+  &::after {
+    animation-delay: 0.5s;
+  }
+
+  @keyframes waves {
+    0% {
+      transform: scale(0.5, 0.5);
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(0.9, 0.9);
+      opacity: 0;
+    }
+  }
+}
+
+// Custom List Style
+.has-list {
+  li:not(:last-child) > *:first-child,
+  & > span:not(:last-child) {
+    @apply relative;
+    @apply pr-8 after:absolute after:top-1/2 after:-translate-y-1/2;
+  }
+  &-dot {
+    li:not(:last-child) > *:first-child {
+      @apply relative;
+      @apply after:w-1 after:h-1 after:right-3.5 after:bg-primary after:rounded-full;
+    }
+  }
+  &-slash {
+    li:not(:last-child) > *:first-child,
+    > span:not(:last-child) {
+      @apply relative pr-10 after:right-4;
+      @apply after:w-px after:h-[110%] after:rotate-[28deg] after:rounded-full;
+    }
+    &.slash-dark > li:not(:last-child) > *:first-child {
+      @apply after:bg-dark/10;
+    }
+    &:not(.slash-dark) > li:not(:last-child) > *:first-child {
+      @apply after:bg-border-default/15;
+    }
+  }
+  &-check,
+  &-check ul {
+    li {
+      @apply relative pl-10 before:right-4;
+      &::before {
+        @apply content-[""] absolute top-[0.075em] left-0;
+        @apply w-6 h-6 border bg-primary rounded-full bg-no-repeat bg-center shadow-lg border-none;
+        background-image: url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 13 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 4.5L5.5 8.5L11.5 1.5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+      }
+    }
+  }
+}
+
+// Brand Text Located in Footer
+.responsive-brand-text {
+  font-size: clamp(4.5rem, 1rem + (1.5vw - 0.2rem) * 28.6567, 25rem);
+
+  /* Safari resize fix */
+  min-height: 0vw;
+
+  @media screen and (max-width: 103.6875rem) {
+    /* 4.5rem(72px) @ 20rem(320px) increasing to 25rem(400px) @ 103.75rem(1660px) */
+    font-size: clamp(
+      4.5rem,
+      1rem + (1.5vw - 0.2rem) * 28.6567,
+      calc(25vw - 100%)
+    );
+    /* Where: 28.6567 = 100 * font-size_difference / viewport_width_difference */
+  }
+}
+
+// Text Highlight
+.has-text-highlight > strong {
+  @apply relative text-primary inline-block;
+
+  svg {
+    @extend .match-brand-color;
+    @apply content-[""] absolute w-[4.1875rem] h-[2rem] bottom-full left-1/2 -translate-x-1/2;
+  }
+}
+
+// Primary Gradient Text
+.has-gradients-text {
+  @apply bg-gradient-to-b from-primary via-90% to-transparent via-white bg-clip-text text-transparent;
+}
+
+// Odometer (Number Count With Animation) Default Style Reset
+.odometer {
+  span,
+  .odometer-inside {
+    @apply inline-block #{!important};
+  }
+  &,
+  * {
+    @apply leading-[inherit] font-[inherit] text-inherit #{!important};
+  }
+
+  &.has-gradients-text * {
+    @extend .has-gradients-text;
+  }
+
+  /* change default duration from default 3s to "duration" */
+  /* https://github.com/HubSpot/odometer/issues/91 */
+  &.odometer-animating-up .odometer-ribbon-inner,
+  &.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+    -webkit-transition-duration: var(--odometer-duration, 2s) !important;
+    -moz-transition-duration: var(--odometer-duration, 2s) !important;
+    -ms-transition-duration: var(--odometer-duration, 2s) !important;
+    -o-transition-duration: var(--odometer-duration, 2s) !important;
+    transition-duration: var(--odometer-duration, 2s) !important;
+  }
+}
+
+.video-player:empty {
+  @apply h-96 bg-black;
+}

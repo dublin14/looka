@@ -1,0 +1,51 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import BtnText from "../buttons/BtnText.astro";
+import { getLocaleUrlCTM } from "@/lib/utils/languageParser.ts";
+
+interface Props {
+  slug: string;
+  content: {
+    title: string;
+    description: string;
+    categories: string[];
+    type: string;
+    location: string;
+    deadline: string;
+  };
+}
+
+let { content, slug, ...rest } = Astro.props;
+const { title, categories, type, location } = content;
+
+slug = getLocaleUrlCTM(slug, Astro.currentLocale, "career");
+---
+
+<div
+  class:list={[
+    "px-8 py-10 border flex flex-col justify-between items-start gap-6",
+  ]}
+  {...rest}>
+  <div class="space-y-4">
+    {
+      categories && categories.length > 0 && (
+        <ul class="flex gap-2 mb-3">
+          {categories.map((category: string) => (
+            <li class="inline-block" set:html={markdownify(category)} />
+          ))}
+        </ul>
+      )
+    }
+    {title && <h3 class="mb-3 text-h5" set:html={markdownify(title)} />}
+  </div>
+  <div
+    class="flex gap-2 has-list has-list-slash [&>span:not(:last-child)]:after:bg-dark/25 text-sm opacity-70">
+    {type && <span set:html={markdownify(type)} />}
+    {location && <span set:html={markdownify(location)} />}
+  </div>
+  <BtnText
+    title={"View More Details"}
+    slug={slug}
+    class="capitalize text-base-sm md:text-base"
+  />
+</div>

@@ -1,0 +1,114 @@
+---
+import { markdownify, toLowerCase } from "@/lib/utils/textConverter";
+import AnimatedNumber from "@/components/widgets/AnimatedNumber.astro";
+import type { PricingTier } from "@/types";
+import OptimizedImage from "../utilities/OptimizedImage.astro";
+import { getLocaleUrlCTM } from "@/lib/utils/languageParser.ts";
+
+type Props = {
+  content: PricingTier;
+  class?: string;
+};
+
+const {
+  class: className,
+  content: { enable, name, description, price, features, cta_btn },
+  ...rest
+} = Astro.props;
+---
+
+{
+  enable && (
+    <div
+      class:list={[
+        "bg-white flex flex-col justify-center items-start gap-8 px-8 py-10 max-lg:box-shadow-primary hover:lg:box-shadow-primary transition duration-500",
+        className,
+      ]}
+      {...rest}>
+      <div class="flex flex-col gap-5">
+        {name && (
+          <h3 class="text-h5 text-inherit" set:html={markdownify(name)} />
+        )}
+        <div class="space-y-4">
+          <div>
+            {price &&
+              price.length > 0 &&
+              price.map((item, index) => (
+                <div
+                  data-plan={toLowerCase(item.type)}
+                  class:list={[
+                    "has-list has-list-slash flex items-center flex-wrap gap-1.5 price-wrapper transition-all duration-300",
+                    {
+                      active: index === 0,
+                    },
+                    {
+                      hidden: index !== 0,
+                    },
+                  ]}>
+                  <span class="flex gap-0 text-h2 font-bold text-primary font-secondary after:!h-[50%] after:bg-primary/50 leading-none">
+                    <AnimatedNumber
+                      animate_on="click"
+                      transition_time="1.2s"
+                      content={item}
+                    />
+                  </span>
+                  <span
+                    class="capitalize text-primary text-lg pricing-type leading-none"
+                    set:html={item.type}
+                  />
+                </div>
+              ))}
+          </div>
+          {description && (
+            <p
+              class="text-inherit opacity-80"
+              set:html={markdownify(description)}
+            />
+          )}
+        </div>
+        {features && (
+          <div class="prose-styles prose-li:text-text-default/70 prose-strong:whitespace-nowrap prose-strong:bg-primary/10 prose-strong:px-2.5 prose-strong:py-1 prose-strong:text-primary prose-strong:font-medium prose-strong:text-xs prose-strong:ml-2 prose-strong:rounded-full">
+            <ul class="py-4 border-y border-dashed border-primary/25 space-y-3">
+              {features.map((feature) => (
+                <li set:html={markdownify(feature)} />
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+      {cta_btn?.enable && (
+        // CTA button
+        <a
+          href={getLocaleUrlCTM(cta_btn.url, Astro.currentLocale)}
+          class="relative flex items-center"
+          {...{
+            // Set `rel` attribute for external URLs or use provided value
+            rel: cta_btn.url?.startsWith("http")
+              ? cta_btn.rel || "noopener noreferrer"
+              : cta_btn.rel || undefined,
+
+            // Set `target` to "_blank" for external URLs unless otherwise specified
+            target: cta_btn.url?.startsWith("http")
+              ? cta_btn.target || "_blank"
+              : cta_btn.target || undefined,
+          }}>
+          <span
+            class:list={[
+              "btn btn-outline btn-outline-primary has-text-flip-animation",
+            ]}
+            data-content={cta_btn.label}>
+            {cta_btn.label}
+          </span>
+          <span class="icon">
+            <OptimizedImage
+              alt="icon"
+              inlineSvg={true}
+              class="text-white w-4 h-4"
+              src="/images/icons/svg/arrow-top-right.svg"
+            />
+          </span>
+        </a>
+      )}
+    </div>
+  )
+}

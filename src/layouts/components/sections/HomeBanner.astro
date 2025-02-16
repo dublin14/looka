@@ -1,0 +1,318 @@
+---
+import "swiper/css/bundle";
+import VideoModal from "@/components/widgets/VideoModal.astro";
+import overrideObjects from "@/lib/utils/overrideObjects.ts";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { Button, Section, VideoConfig } from "@/types";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import DynamicIcon from "@/helpers/DynamicIcon.astro";
+import { getEntryCTM } from "@/lib/contentParser.astro";
+import { getLocaleUrlCTM } from "@/lib/utils/languageParser.ts";
+
+// Type for the about section in the banner
+type BannerAbout = {
+  enable: boolean;
+  content: string;
+  video: VideoConfig;
+};
+
+// Type for each item in the slider
+type SliderItem = {
+  enable: boolean;
+  title: string;
+  description: string;
+  background_image: string;
+  button: Button;
+};
+
+// Type for this section data
+type home_banner_section_type = Section & {
+  about: BannerAbout;
+  slider: SliderItem[];
+};
+
+type Props = {
+  content?: home_banner_section_type;
+};
+
+// Fetching the default content for the this section
+let default_content = (
+  await getEntryCTM("sections", "home-banner", Astro.currentLocale)
+)?.data as home_banner_section_type;
+
+// Enables content customization (e.g., title, description) with a fallback to 'default_content' if not provided.
+// The 'content' prop should match the structure of 'default_content'.
+// Allows using this section with different content across multiple pages.
+// If 'content' is missing, 'default_content' will be used.
+let actual_content = overrideObjects(
+  { ...default_content },
+  Astro.props.content,
+) as home_banner_section_type;
+
+// Extracting required values from 'content' object
+let { about, slider } = actual_content as home_banner_section_type;
+
+// Filter Only enabled slider items
+slider = slider.filter((item) => item.enable);
+---
+
+<section class="banner before:z-10 after:z-10">
+  <div
+    class="swiper swiper-banner-image -z-10 max-w-full !absolute bottom-0 left-0 w-screen h-[112%]">
+    <div class="swiper-wrapper">
+      {
+        slider &&
+          slider.map((item) => (
+            <div class="swiper-slide">
+              {/* BG Image */}
+              <OptimizedImage
+                src={item.background_image}
+                alt="Banner Image"
+                class="hero-image kenburns kenburns-top object-cover !min-w-full !h-full"
+                sizes="(max-width: 640px) 200vw, (min-width: 1320px) 1320w, 100vw"
+                data-content={item.background_image}
+              />
+            </div>
+          ))
+      }
+    </div>
+  </div>
+
+  <div
+    class="lg:min-h-[51.5625rem] flex flex-col relative z-20 justify-center items-start lg:pb-20">
+    <div class="container">
+      <div class="max-w-3xl text-white max-lg:pt-20">
+        <div class="swiper swiper-banner-content">
+          <div class="swiper-wrapper">
+            {
+              slider &&
+                slider.map((item) => (
+                  <div class="swiper-slide">
+                    {item.title && (
+                      <h1
+                        data-aos="fade-up-sm"
+                        data-aos-duration="900"
+                        class="mb-6 capitalize text-h2 md:text-5xl/tight text-inherit"
+                        set:html={markdownify(item.title)}
+                      />
+                    )}
+                    {item.description && (
+                      <p
+                        data-aos-delay="200"
+                        data-aos="fade-up-sm"
+                        data-aos-duration="900"
+                        class="pl-5 border-l opacity-90"
+                        set:html={markdownify(item.description)}
+                      />
+                    )}
+                    {item.button && item.button.enable && (
+                      <div
+                        data-aos-delay="350"
+                        data-aos="fade-in"
+                        data-aos-duration="900"
+                        class="flex gap-5 mt-10">
+                        <a
+                          {...{
+                            // Set `rel` attribute for external urls or use provided value
+                            rel: item.button.url?.startsWith("http")
+                              ? item.button.rel || "noopener noreferrer"
+                              : item.button.rel || undefined,
+
+                            // Set `target` to "_blank" for external urls unless otherwise specified
+                            target: item.button.url?.startsWith("http")
+                              ? item.button.target || "_blank"
+                              : item.button.target || undefined,
+                          }}
+                          class="relative flex items-center"
+                          href={getLocaleUrlCTM(
+                            item.button.url,
+                            Astro.currentLocale,
+                          )}>
+                          <span
+                            class="btn btn-md btn-outline btn-outline-transparent has-text-flip-animation"
+                            data-content={item.button.label}>
+                            {item.button.label}
+                          </span>
+                          <span class="icon">
+                            <OptimizedImage
+                              alt="icon"
+                              inlineSvg={true}
+                              class="text-dark w-4 h-4"
+                              src="/images/icons/svg/arrow-top-right.svg"
+                            />
+                          </span>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Slider Controls -->
+      <div
+        class="flex gap-16 py-6 pt-16 mt-auto lg:absolute lg:bottom-0 lg:pb-12 lg:pt-20">
+        <div
+          data-aos-offset="0"
+          data-aos="fade-down-sm"
+          data-aos-duration="800"
+          data-aos-delay="600">
+          <button
+            title="Previous Slide"
+            class="relative flex items-center justify-center transition duration-300 rounded-full banner-slider-btn-prev bg-secondary w-14 h-14 hover:bg-primary group/slider-control">
+            <OptimizedImage
+              alt="icon"
+              inlineSvg={true}
+              src="/images/icons/svg/arrow-long-left.svg"
+              class="absolute h-10 transition duration-300 left-1/3 w-14 text-primary group-hover/slider-control:-translate-x-1 group-hover/slider-control:text-secondary"
+            />
+          </button>
+        </div>
+        <div
+          data-aos-offset="0"
+          data-aos="fade-down-sm"
+          data-aos-duration="800"
+          data-aos-delay="600">
+          <button
+            title="Next Slide"
+            class="relative flex items-center justify-center transition duration-300 rotate-180 rounded-full banner-slider-btn-next bg-secondary w-14 h-14 hover:bg-primary group/slider-control">
+            <OptimizedImage
+              alt="icon"
+              inlineSvg={true}
+              src="/images/icons/svg/arrow-long-left.svg"
+              class="absolute h-10 transition duration-300 left-1/3 w-14 text-primary group-hover/slider-control:-translate-x-1 group-hover/slider-control:text-secondary"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- About -->
+    {
+      about && about.enable && (
+        <div class="max-lg:container">
+          <div
+            data-aos="fade-up-sm"
+            data-aos-offset="0"
+            data-aos-duration="600"
+            data-aos-delay="800"
+            class="z-10 flex flex-col gap-8 p-6 text-white max-lg:mt-10 lg:p-12 bg-white/5 backdrop-blur-sm lg:max-w-lg lg:absolute lg:bottom-0 lg:right-0">
+            <button
+              type="button"
+              title="Play Video"
+              aria-haspopup="dialog"
+              aria-expanded="false"
+              aria-controls={"#" + about.video.id}
+              data-hs-overlay={"#" + about.video.id}
+              data-hs-overlay-options={`{"emulateScrollbarSpace" : true}`}
+              class="video-modal-toggle flex items-center justify-center w-16 h-16 pl-2 rounded-full lg:w-20 lg:h-20 bg-theme-dark">
+              <DynamicIcon
+                icon="IoPlaySharp"
+                class="lg:w-8 w-6 lg:h-8 h-6 text-blue-200"
+              />
+            </button>
+            <p class="opacity-90" set:html={about.content} />
+          </div>
+        </div>
+      )
+    }
+  </div>
+  <VideoModal video={about.video} />
+</section>
+
+<script>
+  window.addEventListener("load", async function () {
+    const { Swiper } = await import("swiper");
+    const { EffectFade, Navigation, Controller, Autoplay } = await import(
+      "swiper/modules"
+    );
+
+    const handleSlideChange = (swiper: any) => {
+      // Hide elements in all non-active slides
+      hideElements(Array.from(swiper.slides));
+
+      // Animate elements in the active slide
+      const activeSlide = swiper.el.querySelector(
+        ".swiper-slide-active",
+      ) as HTMLElement;
+
+      const activeElements = activeSlide?.querySelectorAll(
+        "[data-aos]",
+      ) as NodeListOf<HTMLElement>;
+
+      activeElements && sliderAnimations(activeElements);
+    };
+
+    // Initialize banner Swiper (background)
+    const bannerSwiper = new Swiper(".swiper-banner-image", {
+      modules: [EffectFade, Controller],
+      speed: 800,
+      spaceBetween: 100,
+      effect: "fade",
+      fadeEffect: {
+        crossFade: true,
+      },
+      loop: true,
+    });
+
+    // Initialize content Swiper with navigation
+    const contentSwiper = new Swiper(".swiper-banner-content", {
+      modules: [EffectFade, Navigation, Controller, Autoplay],
+      speed: 800,
+      spaceBetween: 100,
+      effect: "fade",
+      fadeEffect: {
+        crossFade: true,
+      },
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: ".banner-slider-btn-next",
+        prevEl: ".banner-slider-btn-prev",
+      },
+      on: {
+        init: function (this) {
+          handleSlideChange(this);
+        },
+        slideChange: function () {
+          handleSlideChange(this);
+        },
+        slideChangeTransitionStart: function (this: any) {
+          handleSlideChange(this);
+        },
+        slideChangeTransitionEnd: function (this: any) {
+          handleSlideChange(this);
+        },
+      },
+    });
+
+    // Function to animate elements with AOS
+    function sliderAnimations(elements: NodeListOf<HTMLElement>): void {
+      elements.forEach((element) => {
+        element.classList.add("aos-animate");
+        element.style.visibility = "visible";
+      });
+    }
+
+    // Function to hide elements
+    function hideElements(slides: HTMLElement[]): void {
+      slides.forEach((slide) => {
+        const elements = slide.querySelectorAll(
+          "[data-aos]",
+        ) as NodeListOf<HTMLElement>;
+        elements.forEach((element) => {
+          element.classList.remove("aos-animate");
+          element.style.visibility = "hidden";
+        });
+      });
+    }
+
+    contentSwiper.controller.control = bannerSwiper;
+    bannerSwiper.controller.control = contentSwiper;
+  });
+</script>

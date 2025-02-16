@@ -1,0 +1,112 @@
+---
+import { markdownify, toSentenceCase } from "@/lib/utils/textConverter";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import DynamicIcon from "@/helpers/DynamicIcon.astro";
+
+const { class: className } = Astro.props;
+let { enable, rating, source, customer, content } = Astro.props.content || {};
+
+rating = new Array(rating || 5).fill(null);
+---
+
+{
+  enable && (
+    <div class:list={["w-full relative bg-white p-6 flex " + className]}>
+      <OptimizedImage
+        inlineSvg={true}
+        class="w-48 h-56 absolute top-0 left-0 pointer-events-none text-primary/35"
+        width={119}
+        height={224}
+        src="/images/shapes/review-pattern.svg"
+        perspective="none"
+        alt="pattern"
+      />
+      <div class="flex flex-col justify-between space-y-4 md:space-y-8">
+        {content && (
+          <div class="space-y-8 md:space-y-16">
+            {customer && (
+              <div class="flex items-center flex-wrap-reverse gap-5 justify-between opacity-70">
+                <div class="flex items-center gap-3">
+                  {customer.company.logo && (
+                    <OptimizedImage
+                      class="w-6 h-6"
+                      width={24}
+                      height={24}
+                      src={customer.company.logo}
+                      alt={customer.company.name}
+                    />
+                  )}
+                  {customer.company.name && (
+                    <div
+                      class="text-dark whitespace-nowrap"
+                      set:html={markdownify(customer.company.name)}
+                    />
+                  )}
+                </div>
+                {source && source.logo && (
+                  <div class="relative flex gap-2 items-center border border-secondary rounded-full px-3 py-1">
+                    <span class="text-primary text-sm">Review From</span>
+                    <OptimizedImage
+                      class="w-4 h-4"
+                      width={16}
+                      height={16}
+                      src={source.logo}
+                      alt={toSentenceCase(
+                        "Logo of this website - " + source.url,
+                      )}
+                    />
+                    {source.url && (
+                      <a
+                        tabindex="-1"
+                        class="absolute inset-0"
+                        href={source.url}
+                        target="_blank"
+                        title="Visit this external linked website"
+                        rel="nofollow noopener noreferrer"
+                      />
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+            <div class="prose-styles" set:html={markdownify(content, true)} />
+          </div>
+        )}
+        {customer && (
+          <div class="flex items-center justify-between gap-y-10 gap-x-2 flex-wrap-reverse">
+            <div class="flex items-center gap-4">
+              {
+                <OptimizedImage
+                  class="rounded-full w-12 h-12"
+                  width={48}
+                  height={48}
+                  src={customer.image}
+                  alt={customer.name}
+                />
+              }
+              <div>
+                {customer.name && (
+                  <div
+                    class="text-dark"
+                    set:html={markdownify(customer.name)}
+                  />
+                )}
+                {customer.role && (
+                  <p
+                    class="text-light text-sm"
+                    set:html={markdownify(customer.role)}
+                  />
+                )}
+              </div>
+            </div>
+            <div class="flex gap-2 items-center px-3 py-1.5 bg-theme-light rounded-full">
+              {rating.map(() => (
+                <DynamicIcon icon="IoIosStar" class="fill-yellow-500 text-lg" />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

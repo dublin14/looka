@@ -1,0 +1,75 @@
+---
+import type { TeamMember } from "@/types";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+interface Props {
+  content: TeamMember;
+  image_size?: "lg" | "md";
+  class?: string;
+}
+
+const { content, image_size = "lg", class: className, ...rest } = Astro.props;
+const { name, role, image, social } = content as TeamMember;
+---
+
+<div
+  class:list={[
+    "relative group after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary/80 via-10% after:via-primary/30 to-primary/0 after:z-10 after:transition-opacity rounded-xl overflow-hidden",
+    className,
+  ]}
+  {...rest}>
+  <OptimizedImage
+    class:list={[
+      "object-cover w-full rounded-xl",
+      image_size === "lg" ? "!h-[25.25rem]" : "!h-[20rem]",
+    ]}
+    src={image}
+    alt={name}
+  />
+  <div
+    class="absolute group-hover:md:bottom-0 bottom-0 md:-bottom-14 left-0 z-20 w-full p-8 text-white transition-all duration-300">
+    {
+      name && (
+        <h3
+          class="text-lg/snug opacity-90 text-inherit"
+          set:html={markdownify(name)}
+        />
+      )
+    }
+    {
+      role && (
+        <p
+          class="text-sm opacity-90 text-inherit mt-2"
+          set:html={markdownify(role)}
+        />
+      )
+    }
+    {
+      social && social.enable && (
+        <ul class="flex gap-4 mt-6 transition-all duration-300 z-20 md:opacity-0 md:group-hover:opacity-100">
+          {social.list.map((social) => (
+            <li>
+              <a
+                aria-label={social.label}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                class="relative w-5 h-5 flex items-center justify-center transition duration-300 group/link">
+                <span class="sr-only">{social.label}</span>
+                {social.icon && (
+                  <OptimizedImage
+                    inlineSvg={true}
+                    src={social.icon}
+                    class="has-inherited-colors w-ful h-full relative z-10 group-hover/link:scale-110 text-white transition duration-300"
+                    alt={social.label}
+                  />
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</div>

@@ -1,0 +1,66 @@
+---
+import { toSentenceCase } from "@/lib/utils/textConverter";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import BtnText from "../buttons/BtnText.astro";
+import {
+  getLocaleUrlCTM,
+  useTranslations,
+} from "@/lib/utils/languageParser.ts";
+
+const t = await useTranslations(Astro.currentLocale as string);
+const { content, class: className, ...rest } = Astro.props;
+const { image, icon, title, description } = content.data;
+
+let slug = getLocaleUrlCTM(
+  content.slug,
+  Astro.currentLocale,
+  content.collection,
+);
+---
+
+<div class:list={["bg-white", className]} {...rest}>
+  <div class="relative">
+    {
+      image && (
+        <OptimizedImage
+          src={image}
+          alt={toSentenceCase("Image about " + title)}
+          width={416}
+          height={288}
+          class="w-full min-w-full h-72 object-cover"
+        />
+      )
+    }
+    {
+      icon && (
+        <div class="flex items-center justify-center w-20 h-20 rounded-full bg-primary fill-white transition duration-300 absolute left-8 -bottom-9">
+          <OptimizedImage
+            alt="icon"
+            src={icon}
+            inlineSvg={true}
+            width={40}
+            height={40}
+            class="text-white w-10 h-10 duration-300 transition"
+          />
+        </div>
+      )
+    }
+  </div>
+  <div class="px-8 pt-16 pb-10">
+    {
+      title && (
+        <h3
+          class="relative inline-block text-h4 opacity-80 after:w-10 after:bottom-0 after:left-0 after:absolute after:bg-primary after:h-[0.125rem] mb-4 pb-2"
+          set:html={title}
+        />
+      )
+    }
+    {description && <p set:html={description} />}
+    <BtnText
+      title={title}
+      label={t("common.read_more")}
+      slug={slug}
+      class="capitalize text-base-sm md:text-base mt-8"
+    />
+  </div>
+</div>

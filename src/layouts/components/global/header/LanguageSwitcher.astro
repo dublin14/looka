@@ -1,0 +1,69 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon.astro";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import {
+  getLocaleUrlCTM,
+  supportedLanguages,
+} from "@/lib/utils/languageParser.ts";
+import trailingSlashChecker from "@/lib/utils/trailingSlashChecker";
+
+const currentLocale = Astro.currentLocale;
+const languages = supportedLanguages.map((lang) => {
+  const href = getLocaleUrlCTM(Astro.url.pathname, lang.languageCode as string);
+
+  // Don't include current locale in url
+  if (href === trailingSlashChecker(Astro.url.pathname)) {
+    return;
+  }
+
+  return {
+    slug: href,
+    ...lang,
+  };
+});
+---
+
+<div
+  class="language-switcher hs-dropdown [--gpu-acceleration:false] [--auto-close:true] [--strategy:absolute] relative">
+  <button
+    type="button"
+    id="language-switcher-dropdown-toggle"
+    class="language-switcher-button hs-dropdown-toggle"
+    aria-expanded="false"
+    aria-label="Menu">
+    <OptimizedImage
+      inlineSvg={true}
+      src="/images/icons/svg/multilingual.svg"
+      alt="icon"
+      class="w-4"
+    />
+    <span class="text uppercase">{currentLocale}</span>
+    <DynamicIcon
+      icon="IoIosArrowDown"
+      class="w-3.5 hs-dropdown-open:rotate-180 transition-transform duration-300"
+    />
+  </button>
+  <ul
+    class="language-switcher-dropdown [--placement:right-bottom] hs-dropdown-menu hs-dropdown-open:opacity-100 hs-dropdown-open:visible transition-[opacity,margin] duration-300 opacity-0 w-24 hidden z-10 mt-2 min-w-32"
+    aria-labelledby="language-switcher-dropdown-toggle">
+    {
+      languages.map(
+        (language) =>
+          language && (
+            <li>
+              <a
+                class:list={[
+                  {
+                    active: language.languageCode === currentLocale,
+                  },
+                  "capitalize",
+                ]}
+                href={language.slug}>
+                {language.contentDir}
+              </a>
+            </li>
+          ),
+      )
+    }
+  </ul>
+</div>

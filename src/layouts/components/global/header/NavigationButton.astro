@@ -1,0 +1,44 @@
+---
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import { getLocaleUrlCTM } from "@/lib/utils/languageParser.ts";
+
+const { navigation_button, navigation_button_label, isDarkHeader } =
+  Astro.props;
+---
+
+<a
+  {...{
+    // Set `rel` attribute for external urls or use provided value
+    rel: navigation_button.url?.startsWith("http")
+      ? navigation_button.rel || "noopener noreferrer"
+      : navigation_button.rel || undefined,
+
+    // Set `target` to "_blank" for external urls unless otherwise specified
+    target: navigation_button.url?.startsWith("http")
+      ? navigation_button.target || "_blank"
+      : navigation_button.target || undefined,
+  }}
+  class="relative flex items-center"
+  href={getLocaleUrlCTM(navigation_button.url, Astro.currentLocale)}>
+  <span
+    class:list={[
+      "btn btn-outline",
+      isDarkHeader
+        ? "max-lg:btn-outline-primary lg:btn-outline-transparent lg:has-text-flip-animation"
+        : "btn-outline-primary lg:has-text-flip-animation",
+    ]}
+    data-content={navigation_button_label}>
+    {navigation_button_label}
+  </span>
+  <span class="icon">
+    <OptimizedImage
+      alt="icon"
+      inlineSvg={true}
+      class:list={[
+        "w-4 h-4",
+        isDarkHeader ? "text-white lg:text-dark" : "text-white",
+      ]}
+      src="/images/icons/svg/arrow-top-right.svg"
+    />
+  </span>
+</a>

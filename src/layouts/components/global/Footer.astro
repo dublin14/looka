@@ -1,0 +1,209 @@
+---
+import { getLocaleUrlCTM } from "@/lib/utils/languageParser.ts";
+import parseTomlToJson from "@/lib/utils/parseTomlToJson";
+import { markdownify } from "@/lib/utils/textConverter";
+import { splitProtectedText } from "@/lib/utils/splitProtectedText";
+import SocialComponent from "@/components/social/Social.astro";
+import Logo from "@/components/global/Logo.astro";
+import social from "@/config/social.json";
+import SubscriptionForm from "@/components/widgets/SubscriptionForm.astro";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import { useTranslations } from "@/lib/utils/languageParser.ts";
+
+const config = parseTomlToJson("./src/config/config.toml");
+const t = await useTranslations(Astro.currentLocale as string);
+
+const { copyright, footer_description, subscription, brand_name } =
+  config.settings;
+
+const footerDescription = footer_description || t("footer.description") || "";
+
+const copyrightText = copyright.text || t("footer.copyright") || "";
+const copyrightParts = splitProtectedText(copyrightText);
+---
+
+<footer class="bg-theme-dark text-white relative">
+  <!-- Background Patterns -->
+  <div
+    class="absolute top-0 left-0 z-10 pointer-events-none w-44 h-40 md:opacity-100 opacity-30">
+    <OptimizedImage
+      inlineSvg={true}
+      class="object-cover w-full h-full origin-bottom-right text-primary"
+      src="/images/shapes/footer-bg-pattern-1.svg"
+      alt="pattern"
+    />
+  </div>
+  <div
+    class="absolute top-0 right-0 z-10 h-40 pointer-events-none w-40 md:opacity-100 opacity-30">
+    <OptimizedImage
+      inlineSvg={true}
+      class="object-cover w-full h-full origin-bottom-right text-primary"
+      src="/images/shapes/footer-bg-pattern-1.svg"
+      alt="pattern"
+    />
+  </div>
+
+  <div class="container">
+    <div class="grid lg:grid-cols-2 xl:grid-cols-3 pt-16 md:pt-32">
+      <!-- Logo, Description and Social -->
+      <div class="flex flex-col gap-y-5 lg:pe-10">
+        <Logo src="/images/logo-white.svg" />
+        {
+          footerDescription && (
+            <p class="opacity-90" set:html={markdownify(footerDescription)} />
+          )
+        }
+        <SocialComponent
+          layout="dark"
+          link_type="follow"
+          class="gap-1 mt-5"
+          list={social.main.filter((social) => social.enable)}
+        />
+      </div>
+
+      <!-- Quick Links, Resources, Legal and Subscription -->
+      <div
+        class="col-span-2 xl:ml-5 grid gap-y-10 md:grid-cols-3 mt-10 xl:mt-0">
+        <!-- Quick Links -->
+        <div class="md:px-8 xl:px-14 lg:px-8 md:border-l border-white/10">
+          {
+            t("footer.quick_links") && (
+              <h3
+                class="mb-6 text-h5 text-inherit"
+                set:html={t("footer.quick_links")}
+              />
+            )
+          }
+          <ul class="flex flex-col gap-y-1.5">
+            {
+              t("footer_menu_quick_link") &&
+                t("footer_menu_quick_link").map(
+                  (menu: { name: string; url: string }) => (
+                    <li class="inline-block">
+                      <a
+                        class="text-inherit opacity-90 duration-300 py-px inline-block hover:underline focus:underline"
+                        href={getLocaleUrlCTM(menu.url, Astro.currentLocale)}>
+                        {menu.name}
+                      </a>
+                    </li>
+                  ),
+                )
+            }
+          </ul>
+        </div>
+
+        <!-- Resources, Legal and Subscription -->
+        <div
+          class="md:pl-8 xl:pl-14 lg:pl-8 md:border-l border-white/10 col-span-2">
+          <div class="grid gap-y-10 md:grid-cols-2">
+            <div>
+              {
+                t("footer.resources") && (
+                  <h3
+                    class="mb-6 text-h5 text-inherit"
+                    set:html={t("footer.resources")}
+                  />
+                )
+              }
+              <ul class="flex flex-col gap-2">
+                {
+                  t("footer_menu_resources").map(
+                    (menu: { name: string; url: string }) => (
+                      <li class="inline-block">
+                        <a
+                          class="text-inherit opacity-90 duration-300 py-px inline-block hover:underline focus:underline"
+                          href={getLocaleUrlCTM(menu.url, Astro.currentLocale)}
+                          set:html={menu.name}
+                        />
+                      </li>
+                    ),
+                  )
+                }
+              </ul>
+            </div>
+            <div class="md:pl-8 xl:pl-14 lg:pl-8 md:border-l border-white/10">
+              {
+                t("footer.legal") && (
+                  <h3
+                    class="mb-6 text-h5 text-inherit"
+                    set:html={t("footer.legal")}
+                  />
+                )
+              }
+              <ul class="flex flex-col gap-2">
+                {
+                  t("footer_menu_legal").map(
+                    (menu: { name: string; url: string }) => (
+                      <li class="inline-block">
+                        <a
+                          class="text-inherit opacity-90 duration-300 py-px inline-block hover:underline focus:underline"
+                          href={getLocaleUrlCTM(menu.url, Astro.currentLocale)}
+                          set:html={menu.name}
+                        />
+                      </li>
+                    ),
+                  )
+                }
+              </ul>
+            </div>
+          </div>
+          {
+            subscription && subscription.enable && (
+              <div class="border-t border-white/10 mt-8 pt-5">
+                {t("subscription.label") && (
+                  <p
+                    class="mb-2.5"
+                    set:html={markdownify(t("subscription.label"))}
+                  />
+                )}
+                <SubscriptionForm {...subscription} />
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brand Name -->
+  {
+    brand_name && (
+      <div class="overflow-hidden text-[clamp(1rem,_90%,_25rem)]">
+        <div
+          class="max-w-[103.75rem] font-bold bg-gradient-to-b from-primary via-white/25 to-transparent bg-clip-text text-transparent mx-auto text-center opacity-10 leading-[0.8] font-secondary responsive-brand-text max-md:py-5"
+          set:html={brand_name}
+        />
+      </div>
+    )
+  }
+
+  <!-- Footer Menu & Copyright -->
+  <div class="bg-white/5 py-7 text-sm md:text-base">
+    <div class="container flex justify-between gap-x-8 gap-y-6 flex-wrap">
+      <ul class="flex flex-wrap gap-y-2 md:flex-nowrap has-list has-list-dot">
+        {
+          t("footer_menu").map((menu: { name: string; url: string }) => (
+            <li class="inline-block">
+              <a
+                class="text-inherit opacity-90 duration-300 py-px inline-block hover:underline focus:underline"
+                href={getLocaleUrlCTM(menu.url, Astro.currentLocale)}
+                set:html={menu.name}
+              />
+            </li>
+          ))
+        }
+      </ul>
+      {
+        config.settings.copyright && config.settings.copyright.enable && (
+          <ul class="flex flex-wrap gap-y-2 has-list has-list-slash prose-a:text-inherit">
+            {copyrightParts.map((value: string) => (
+              <li class="inline-block prose-a:underline-offset-2 prose-a:underline opacity-90">
+                <span set:html={markdownify(value)} />
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</footer>

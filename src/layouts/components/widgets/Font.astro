@@ -1,0 +1,44 @@
+---
+import { AstroFont } from "astro-font";
+import theme from "@/config/theme.json";
+import type { FontConfig } from "@/types";
+
+const { fonts } = theme;
+const { font_family } = fonts;
+const {
+  self_hosted_fonts,
+  primary,
+  secondary,
+  primary_weights,
+  secondary_weights,
+} = font_family;
+
+// Utility function to format font names for URLs
+const formatFontName = (name: string) =>
+  name?.replace(/\s+/g, "+") ?? "sans-serif";
+
+// Generates font config
+const createFontConfig = (
+  name: string,
+  weights: string,
+  cssVariable: string,
+  preload: boolean,
+): FontConfig => ({
+  src: [],
+  fetch: !!self_hosted_fonts, // Converts to boolean explicitly
+  display: "swap",
+  preload,
+  name: name ?? "sans-serif",
+  fallback: "sans-serif",
+  cssVariable,
+  googleFontsURL: `https://fonts.googleapis.com/css2?family=${formatFontName(name)}:wght@${weights}&display=swap`,
+});
+
+// Font configuration array
+const fontConfigs: FontConfig[] = [
+  createFontConfig(primary, primary_weights, "font-primary", false),
+  createFontConfig(secondary, secondary_weights, "font-secondary", true),
+];
+---
+
+<AstroFont config={[...fontConfigs]} />

@@ -1,0 +1,31 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+
+interface Props {
+  content: {
+    icon: string;
+    title: string;
+    description: string;
+  };
+}
+
+const { content, ...rest } = Astro.props;
+const { icon, title, description } = content;
+---
+
+<div class:list={["px-6 py-8 border"]} {...rest}>
+  {
+    icon && (
+      <div class="flex items-center justify-center w-16 h-16 mb-8 rounded-full bg-primary/5">
+        <OptimizedImage
+          class="w-8 h-8"
+          src={icon}
+          alt={`icon related to ${title}`}
+        />
+      </div>
+    )
+  }
+  {title && <h3 class="mb-3 text-h5" set:html={markdownify(title)} />}
+  {description && <p set:html={markdownify(description)} />}
+</div>

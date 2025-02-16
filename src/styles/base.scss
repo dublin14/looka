@@ -1,0 +1,88 @@
+:root {
+  --color-primary: theme(colors.primary);
+  --color-secondary: theme(colors.secondary);
+}
+
+html {
+  @apply text-base-xs min-[340px]:text-base-sm md:text-base scroll-smooth;
+  // For Syne Font Make All Numbers Same Height
+  font-feature-settings:
+    "lnum" 1,
+    "tnum" 1; /* Lining and tabular numbers */
+}
+
+body {
+  @apply bg-body font-primary font-normal leading-normal text-text-default;
+}
+
+// Custom Scrollbar
+.has-customized-scrollbar {
+  @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-gray-300;
+}
+
+// Global Section Spacing
+main section {
+  @apply pt-16 md:pt-28;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-secondary leading-snug text-dark tracking-wide font-bold;
+
+  br {
+    @apply max-md:hidden;
+  }
+}
+
+h1,
+.h1 {
+  @apply text-h1-md md:text-h1;
+}
+
+h2,
+.h2 {
+  @apply text-h2-md md:text-h2;
+}
+
+h3,
+.h3 {
+  @apply text-h3-md md:text-h3;
+}
+
+h4,
+.h4 {
+  @apply text-h4;
+}
+
+h5,
+.h5 {
+  @apply text-h5;
+}
+
+h6,
+.h6 {
+  @apply text-h6;
+}
+
+b,
+strong {
+  @apply text-dark/80;
+}
+
+code {
+  @apply after:border-none;
+}
+
+a {
+  @apply text-primary;
+}
+
+p {
+  br {
+    @apply max-md:hidden;
+  }
+}

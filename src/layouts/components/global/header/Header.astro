@@ -1,0 +1,132 @@
+---
+import Logo from "@/components/global/Logo.astro";
+import LineAnimation from "@/components/widgets/LineAnimation.astro";
+import parseTomlToJson from "@/lib/utils/parseTomlToJson";
+import LanguageSwitcher from "@/layouts/components/global/header/LanguageSwitcher.astro";
+import NavigationButton from "@/layouts/components/global/header/NavigationButton.astro";
+import NavMenuItem from "@/layouts/components/global/header/MenuItem.astro";
+import NavToggleBtn from "@/layouts/components/global/header/NavToggleBtn.astro";
+import type { NavigationLink } from "@/types";
+import { useTranslations } from "@/lib/utils/languageParser.ts";
+import { filteredEnabled } from "@/lib/utils/filteredEnabled";
+
+const config = parseTomlToJson("./src/config/config.toml");
+const t = await useTranslations(Astro.currentLocale as string);
+let main = t("main") as NavigationLink[];
+main = filteredEnabled(main);
+
+// Check if the current page is the home page
+const isDarkHeader =
+  Astro.url.pathname === "/" ||
+  Astro.url.pathname === "/" + Astro.currentLocale ||
+  Astro.url.pathname === "/" + Astro.currentLocale + "/";
+
+// Check if the current page is the category filtered page
+const urlPattern = "/" + config.settings.blog_folder + "/category/";
+const isCategoryFilteredPage = Astro.url.pathname.includes(urlPattern);
+
+const { sticky_header, navigation_button } = config.settings;
+---
+
+<header
+  class:list={[
+    "header transform group/header",
+    { "sticky-header": sticky_header },
+    { "header-dark": isDarkHeader },
+  ]}>
+  <nav class="container relative">
+    <div
+      class="hs-dropdown [--gpu-acceleration:false] [--auto-close:false] [--strategy:absolute] lg:[--strategy:static] relative flex items-center justify-between py-7">
+      <Logo />
+
+      <ul
+        id="nav-menu"
+        class="navbar hs-dropdown-menu hs-dropdown-open:flex hs-dropdown-open:mt-0 max-lg:mt-2 has-customized-scrollbar">
+        {main.map((menu) => <NavMenuItem menu={menu} />)}
+        {/* Navigation Button For Small Devices */}
+        {
+          navigation_button.enable && (
+            <li class="lg:hidden max-lg:px-4 max-lg:py-2" role="menuitem">
+              {navigation_button.enable && (
+                <NavigationButton
+                  isDarkHeader={isDarkHeader}
+                  navigation_button={navigation_button}
+                  navigation_button_label={t("navigation.button_label")}
+                />
+              )}
+            </li>
+          )
+        }
+      </ul>
+
+      {/* Language Switcher For Small Devices */}
+      {
+        config.settings.multilingual.enable && !isCategoryFilteredPage && (
+          <div class="lg:hidden flex ml-auto me-4">
+            <LanguageSwitcher />
+          </div>
+        )
+      }
+
+      {/* Navigation Button For Large Devices */}
+      {
+        (navigation_button.enable || config.settings.multilingual.enable) && (
+          <div class="max-lg:ml-auto max-lg:me-4 hidden lg:flex lg:items-center gap-3.5">
+            {config.settings.multilingual.enable && !isCategoryFilteredPage && (
+              <LanguageSwitcher />
+            )}
+            {navigation_button.enable && (
+              <NavigationButton
+                isDarkHeader={isDarkHeader}
+                navigation_button={navigation_button}
+                navigation_button_label={t("navigation.button_label")}
+              />
+            )}
+          </div>
+        )
+      }
+      <NavToggleBtn isDarkHeader={isDarkHeader} />
+    </div>
+  </nav>
+</header>
+
+<script>
+  import "@/plugins/preline/dropdown";
+  function stickyHeader(): void {
+    const header = document.querySelector(
+      ".sticky-header",
+    ) as HTMLElement | null;
+    if (!header) return; // Early exit if no header is found
+
+    let prevScrollPos = window.scrollY;
+
+    if (prevScrollPos > 0) {
+      header.classList.add("scroll-up");
+    }
+
+    window.addEventListener("scroll", () => {
+      const currentScrollPos = window.scrollY;
+
+      if (prevScrollPos > currentScrollPos) {
+        // Scrolling up
+        header.classList.remove("scroll-down");
+        header.classList.add("scroll-up");
+      } else if (prevScrollPos < currentScrollPos) {
+        // Scrolling down
+        header.classList.remove("scroll-up");
+        header.classList.add("scroll-down");
+      }
+
+      if (currentScrollPos === 0) {
+        header.classList.remove("scroll-up");
+        header.classList.remove("scroll-down");
+      }
+
+      prevScrollPos = currentScrollPos;
+    });
+  }
+
+  stickyHeader();
+</script>
+
+{Astro.url.pathname !== "/" && <LineAnimation {...Astro.props} />}

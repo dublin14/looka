@@ -1,0 +1,42 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import AnimatedNumber from "@/layouts/components/widgets/AnimatedNumber.astro";
+import type { StatItem } from "@/types";
+
+const { content: stats_block, ...rest } = Astro.props;
+---
+
+<div class="max-w-lg has-animated-number" {...rest}>
+  {
+    stats_block.list.map((item: StatItem, index: number) => (
+      <div class:list={["grid grid-cols-2 gap-0", index !== 0 && "border-t"]}>
+        <div
+          class:list={[
+            "flex flex-col py-7",
+            index % 2 !== 0 ? "order-2 pl-4 ml-4 border-l" : "items-end",
+          ]}>
+          <AnimatedNumber
+            class="relative has-gradients-text overflow-hidden text-h3 md:text-h2 font-secondary font-bold leading-tight mb-2 inline-flex place-items-stretch"
+            child_class="has-gradients-text"
+            content={item}
+          />
+          <h3 class="font-medium text-h6 opacity-80" set:html={item.title} />
+        </div>
+        <div
+          class:list={[
+            "opacity-80 py-7 flex items-center",
+            index % 2 !== 0
+              ? "order-1 text-end justify-end"
+              : "pl-4 ml-4 border-l",
+          ]}>
+          {item.description && (
+            <p
+              class="text-sm max-w-52"
+              set:html={markdownify(item.description)}
+            />
+          )}
+        </div>
+      </div>
+    ))
+  }
+</div>

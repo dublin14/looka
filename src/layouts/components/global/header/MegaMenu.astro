@@ -1,0 +1,179 @@
+---
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import { getCollectionCTM } from "@/lib/contentParser.astro";
+import type { NavigationLink } from "@/types";
+import parseTomlToJson from "@/lib/utils/parseTomlToJson";
+import {
+  getLocaleUrlCTM,
+  useTranslations,
+} from "@/lib/utils/languageParser.ts";
+import { toSentenceCase } from "@/lib/utils/textConverter";
+
+const config = parseTomlToJson("./src/config/config.toml");
+const menu = Astro.props.menu as NavigationLink;
+
+const t = await useTranslations(Astro.currentLocale as string);
+let services = await getCollectionCTM(
+  config.settings.services_folder as "services",
+  Astro.currentLocale,
+);
+
+const has_enable_menu = menu.menus?.filter((menu) => menu.enable) || [];
+---
+
+<div
+  class="hs-dropdown-menu mega-menu hs-dropdown-open:pointer-events-auto transition-[opacity,margin] hs-dropdown-open:opacity-100 w-full bg-white border border-border-default/40 pointer-events-none hidden opacity-0 lg:border-border-default lg:!left-0 mt-2 hs-dropdown-open:mt-0 max-h-[90vh] overflow-auto lg:fixed lg:!transform lg:!top-full has-customized-scrollbar overflow-x-hidden">
+  <div
+    class="container flex flex-col md:grid gap-10 lg:grid-cols-3 md:grid-cols-2 py-4 lg:py-0 thin-scrollbar">
+    {
+      menu.menus && has_enable_menu.length > 0 && (
+        <div class="lg:py-8 text-sm flex flex-col gap-10 lg:me-5">
+          {menu.menus.map(
+            (menu_one) =>
+              menu_one.enable && (
+                <div class="flex flex-col gap-5">
+                  {menu_one.name && (
+                    <legend
+                      class="pb-3 border-b border-border-default/40 opacity-80 tracking-wider"
+                      set:html={menu_one.name}
+                    />
+                  )}
+                  {menu_one.children && menu_one.children.length > 0 && (
+                    <div class="flex gap-5 max-md:flex-wrap">
+                      {menu_one.children.map(
+                        (menu_two) =>
+                          menu_two.enable && (
+                            <div class="flex-1 flex flex-col gap-4 max-md:min-w-32 max-md:w-full">
+                              {menu_two.name && (
+                                <legend
+                                  class="opacity-40 tracking-wider"
+                                  set:html={menu_two.name}
+                                />
+                              )}
+                              <ul class="text-text-default tracking-wider opacity-90 [&>li:not(:first-child)>a]:pt-4">
+                                {menu_two.children?.map((child) => (
+                                  <li role="menuitem">
+                                    <a
+                                      {...{
+                                        // Set `rel` attribute for external links or use provided value
+                                        rel: child.url?.startsWith("http")
+                                          ? child.rel || "noopener noreferrer"
+                                          : child.rel || undefined,
+
+                                        // Set `target` to "_blank" for external links unless otherwise specified
+                                        target: child.url?.startsWith("http")
+                                          ? child.target || "_blank"
+                                          : child.target || undefined,
+                                      }}
+                                      target={
+                                        child.url?.startsWith("http")
+                                          ? "_blank"
+                                          : undefined
+                                      }
+                                      href={getLocaleUrlCTM(
+                                        child.url || Astro.url.origin,
+                                        Astro.currentLocale,
+                                      )}
+                                      class="text-inherit block hover:opacity-60 duration-300 transition-opacity">
+                                      {child.name}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ),
+                      )}
+                    </div>
+                  )}
+                </div>
+              ),
+          )}
+        </div>
+      )
+    }
+    {
+      menu.services && menu.services.enable && (
+        <div class="lg:py-8 text-sm flex flex-col gap-10 lg:me-5">
+          <div class="flex flex-col gap-5">
+            {menu.services.name && (
+              <legend
+                class="pb-3 border-b border-border-default/40 opacity-80 tracking-wider"
+                set:html={menu.services.name}
+              />
+            )}
+            <div class="flex-1 flex flex-col gap-4">
+              <div class="space-y-4 tracking-wider">
+                {services.map((service) => (
+                  <div class="group/item after:rounded-md py-1.5 flex gap-4 justify-start items-center after:w-[105%] after:h-[105%] after:absolute after:inset-0 after:bg-primary/5 relative after:translate-centered after:pointer-events-none after:opacity-0 hover:after:opacity-100 after:transition after:duration-300">
+                    {service.data.icon && (
+                      <div class="flex shrink-0 items-center justify-center w-12 h-12 rounded-lg group-hover/item:bg-primary bg-primary/5 transition duration-300">
+                        <OptimizedImage
+                          alt="icon"
+                          inlineSvg={true}
+                          src={service.data.icon}
+                          class="has-inherited-colors w-7 h-7 group-hover/item:duration-300 group-hover/item:text-white text-primary transition"
+                        />
+                      </div>
+                    )}
+                    <div class="flex shrink-0 flex-col gap-1 w-[calc(100%_-_4rem)]">
+                      {service.data.title && (
+                        <div set:html={service.data.title} />
+                      )}
+                      {service.data.description && (
+                        <p class="opacity-60 truncate">
+                          {service.data.description}
+                        </p>
+                      )}
+                    </div>
+                    {(service.data?.custom_slug || service.slug) && (
+                      <a
+                        class="absolute inset-0 z-10 w-full h-full opacity-0"
+                        href={getLocaleUrlCTM(
+                          service.slug,
+                          Astro.currentLocale,
+                          service.collection,
+                        )}
+                        title={toSentenceCase(
+                          t("common.read_more_about") +
+                            " " +
+                            service.data.title,
+                        )}
+                        set:html={toSentenceCase(
+                          t("common.read_more_about") +
+                            " " +
+                            service.data.title,
+                        )}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+    {
+      menu.testimonial && menu.testimonial.enable && (
+        <div class="bg-primary/5 pb-8 pt-20 px-10 hidden lg:block after:w-screen after:absolute relative after:left-full after:bg-primary/5 after:size-full after:top-0">
+          {menu.testimonial.content && (
+            <p class="opacity-80" set:html={menu.testimonial.content} />
+          )}
+          <OptimizedImage
+            inlineSvg={true}
+            src="/images/quote.svg"
+            class="match-brand-color w-10 h-10 mt-5"
+            alt="quote icon"
+          />
+          <div class="relative has-clip-path overflow-hidden after:bg-gradient-to-b after:from-transparent after:from-40% after:to-primary/50 after:absolute after:inset-0">
+            <OptimizedImage
+              class="w-[80%] mx-auto block"
+              src={menu.testimonial.image}
+              alt="customer"
+            />
+          </div>
+        </div>
+      )
+    }
+  </div>
+</div>
