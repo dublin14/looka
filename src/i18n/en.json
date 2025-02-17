@@ -35,7 +35,7 @@
     "legal": "Legal",
     "resources": "Resources",
     "description": "Civic and Digital Consulting",
-    "copyright": "Copyright {{ year }} / Daniel Dunne t/a Civic and Digital, Astro Looka theme by Getastrothemes U.S.",
+    "copyright": "Copyright {{ year }} / content by Daniel Dunne trading as Civic and Digital, Astro theme by Getastrothemes U.S.",
     "_comment": "We kindly appreciate it if you retain the theme copyright. Thank you for supporting Getastrothemes!"
   }
 }
