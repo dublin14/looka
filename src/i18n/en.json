@@ -34,8 +34,8 @@
     "quick_links": "Quick Links",
     "legal": "Legal",
     "resources": "Resources",
-    "description": "Looka is a San Francisco-based design and technology company founded in 2016. Their mission is to democratize design by making professional branding tools accessible to everyone.",
-    "copyright": "Copyright {{ year }} / All Rights Reserved By Looka / Built with love using [Astro Themes](https://getastrothemes.com/) by [Getastrothemes](https://getastrothemes.com/)",
-    "_comment": "We kindly appreciate it if you retain the theme copyright. Thank you for supporting Getastrothemes!"
+    "description": "Civic and Digital Consulting",
+    "copyright": "Copyright {{ year }} / Daniel Dunne t/a Civic and Digital" Astro Looka theme by Getastrothemes U.S.,
+    "_comment": "thank you"
   }
 }
