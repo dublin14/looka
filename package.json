@@ -28,7 +28,7 @@
     "@preline/select": "^2.5.2",
     "@preline/tabs": "^2.6.0",
     "aos": "^2.3.4",
-    "astro": "5.1.7",
+    "astro": "^5.4.1",
     "astro-auto-import": "^0.4.4",
     "astro-font": "^0.1.81",
     "cross-env": "^7.0.3",
