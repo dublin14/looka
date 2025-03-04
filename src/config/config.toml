@@ -8,8 +8,8 @@
   logo              = "/images/CivicDigitalMainLogo.svg" # Path to the site's logo
   logo_alternate    = "" # Path to the site's logo
   logo_text         = "Civic and Digital" # Text displayed next to the logo
-  logo_width        = "29px" # Width of the logo
-  logo_height       = "29px" # Height of the logo
+  logo_width        = "80px" # Width of the logo
+  logo_height       = "80px" # Height of the logo
 
   # Add a trailing slash at the end of URLs (e.g., https://example.com/, https://example.com/contact/)
   # Note: Manually restart your server when you change this value
@@ -54,7 +54,7 @@
   services_folder  = "services" # Folder where services are stored
   portfolio_folder = "case-studies" # Folder where case-studies or projects or portfolio are stored
 
-  pagination    = 5 # Number of posts displayed on each page blog list page
+  pagination    = 4 # Number of posts displayed on each page blog list page
   sticky_header = true # Enables or disable sticky feature of header
   brand_name    = "Civic and Digital" # Name to be displayed in the footer as big text
 
@@ -83,7 +83,7 @@
   [settings.multilingual]
     # Set `enable` to `true` for enabling the multilingual feature or `false` for disabling it.
     # Run `npm run remove-multilingual` for removing multilingual content files after disabling the feature.
-    enable                   = true
+    enable                   = false
     default_language         = "en"
     disable_languages        = [""] # List of languages to disable (eg: ["fr", "es"])
     show_default_lang_in_url = false # Show default language in URL (eg: https://getastrothemes.com/en/)
@@ -107,7 +107,7 @@
 # -----------------------------------------------------------------------------------------------------------------------------------
 [opengraph]
   image        = "/images/og-image.png" # Image used in OpenGraph previews
-  og_locale    = "en_US" # Locale setting for OpenGraph
+  og_locale    = "en_GB" # Locale setting for OpenGraph
   og_type      = "website" # Type of content for OpenGraph protocol
   twitter      = "" # Twitter handle for Twitter Card meta tags
   twitter_card = "summary_large_image" # Type of Twitter Card to use in social sharing
