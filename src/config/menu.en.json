@@ -222,7 +222,7 @@
         }
       ]
     },
-    {
+/*    {
       "enable": false,
       "name": "Pricing",
       "url": "/pricing/",
@@ -233,6 +233,7 @@
         "type": "text"
       }
     },
+  */
     {
       "enable": true,
       "name": "Contact",
