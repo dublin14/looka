@@ -116,7 +116,7 @@
         },
         {
           "name": "PORTFOLIO LAYOUTS",
-          "enable": true,
+          "enable": false,
           "children": [
             {
               "name": "LIST",
