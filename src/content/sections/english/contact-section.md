@@ -9,10 +9,10 @@ contact_list:
   list:
     - icon: "/images/icons/svg/phone.svg"
       label: "Call us now"
-      value: "+1-202-555-0190"
+      value: "+353-87-830-7266"
     - icon: "/images/icons/svg/email.svg"
       label: "Email us"
-      value: "example@gmail.com"
+      value: "dublin14@gmail.com"
     - icon: "/images/icons/svg/whatsapp.svg"
       label: "Chat with us"
       value: "@example"
