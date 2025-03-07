@@ -269,7 +269,7 @@
       "url": "/contact/"
     },
     {
-      "enable": true,
+      "enable": false,
       "name": "Pricing",
       "url": "/pricing/"
     },
