@@ -6,7 +6,7 @@
       "testimonial": {
         "enable": true,
         "image": "/images/customer-image.png",
-        "content": "Looka strategic planning helped us streamline operations and unlock new market opportunities. We've seen a remarkable 25% increase in revenue within the last year."
+        "content": "Civic and Didgital consulting."
       },
       "services": {
         "enable": true,
@@ -42,12 +42,12 @@
                   "url": "/case-studies/case-studies-01/"
                 },
                 {
-                  "enable": true,
+                  "enable": false,
                   "name": "Career",
                   "url": "/career/"
                 },
                 {
-                  "enable": true,
+                  "enable": false,
                   "name": "Career Single",
                   "url": "/career/job-01/"
                 }

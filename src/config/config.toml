@@ -85,7 +85,7 @@
     # Run `npm run remove-multilingual` for removing multilingual content files after disabling the feature.
     enable                   = false
     default_language         = "en"
-    disable_languages        = [""] # List of languages to disable (eg: ["fr", "es"])
+    disable_languages        = ["fr"] # List of languages to disable (eg: ["fr", "es"])
     show_default_lang_in_url = false # Show default language in URL (eg: https://getastrothemes.com/en/)
 
   # Navigation Button In Header
