@@ -1,7 +1,7 @@
 {
   "main": [
     {
-      "name": "Pages",
+      "name": "SERVICES",
       "hasMegaMenu": true,
       "testimonial": {
         "enable": true,
@@ -10,7 +10,7 @@
       },
       "services": {
         "enable": true,
-        "name": "SERVICES"
+        "name": "Our Services"
       },
       "menus": [
         {
@@ -227,7 +227,7 @@
       "name": "Pricing",
       "url": "/pricing/",
       "badge": {
-        "enable": true,
+        "enable": false,
         "label": "NEW",
         "color": "primary",
         "type": "text"
