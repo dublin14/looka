@@ -78,7 +78,7 @@
         },
         {
           "name": "BLOG",
-          "enable": true,
+          "enable": false,
           "children": [
             {
               "name": "LIST",
@@ -155,7 +155,7 @@
       ]
     },
     {
-      "name": "Dropdown",
+      "name": "GDPR",
       "hasChildren": true,
       "children": [
         {
@@ -223,7 +223,7 @@
       ]
     },
     {
-      "enable": true,
+      "enable": false,
       "name": "Pricing",
       "url": "/pricing/",
       "badge": {
