@@ -15,7 +15,7 @@
       "menus": [
         {
           "name": "REGULAR PAGES",
-          "enable": true,
+          "enable": false,
           "children": [
             {
               "name": "",
