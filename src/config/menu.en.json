@@ -222,18 +222,6 @@
         }
       ]
     },
-/*    {
-      "enable": false,
-      "name": "Pricing",
-      "url": "/pricing/",
-      "badge": {
-        "enable": false,
-        "label": "NEW",
-        "color": "primary",
-        "type": "text"
-      }
-    },
-  */
     {
       "enable": true,
       "name": "Contact",
