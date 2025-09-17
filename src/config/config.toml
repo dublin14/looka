@@ -1,7 +1,7 @@
 # Site Configuration
 [site]
   title             = "Civic and Digital Ireland" # Shared title for SEO and OpenGraph
-  description       = "Digital governance and policy, GDPR, privacy, EU" # Shared description for SEO and OpenGraph
+  description       = "Local News and Data, Digital governance and policy" # Shared description for SEO and OpenGraph
   tagline           = "Policy Research and Consulting"
   tagline_separator = "" # default is " - " 
   base_url          = "https://civicanddigital.ie" # Base URL for the site and used in OpenGraph meta tags.

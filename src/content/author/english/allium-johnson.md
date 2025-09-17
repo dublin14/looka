@@ -1,5 +1,5 @@
 ---
-title: "Allium Johnson"
+title: "Daniel Dunne"
 image: "/images/author/allium-johnson.png"
-role: "Engineer"
+role: "Editor"
 ---
