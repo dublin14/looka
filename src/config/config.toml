@@ -26,7 +26,7 @@
 # -----------------------------------------------------------------------------------------------------------------------------------
 [seo]
   author   = "Daniel Dunne, t/a Civic and Digital"
-  keywords = ["GDPR EU Research Policy"] # SEO keywords
+  keywords = ["Local News and Data", "Digital policy"] # SEO keywords
   robots   = "index, follow" # Instructs search engines on how to crawl and index the pages.
 
   [seo.robots_txt]
@@ -74,7 +74,7 @@
 
   # Mailchimp Subscription Form located in footer
   [settings.subscription]
-    enable      = true # Enables or disable the subscription form
+    enable      = false # Enables or disable the subscription form
     title       = "" # Check src/i18n/en.json and src/i18n/fr.json for changing the title in different languages or directly add value here if you are not using internationalization feature
     form_action = "https://gmail.us11.list-manage.com/subscribe/post?u=d870b06d86c16269e4b1f9b39&amp;id=12cf0c6ac2&amp;f_id=007e61e1f0"
 
@@ -90,7 +90,7 @@
 
   # Navigation Button In Header
   [settings.navigation_button]
-    enable = true
+    enable = false
     label  = "" # Check src/i18n/en.json and src/i18n/fr.json for changing the navigation button label in different languages or directly add value here if you are not using internationalization feature
     url    = "/contact/"
 

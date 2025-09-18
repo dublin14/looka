@@ -6,7 +6,7 @@
       "testimonial": {
         "enable": true,
         "image": "/images/customer-image.png",
-        "content": "Civic and Didgital consulting."
+        "content": "Civic and Digital consulting."
       },
       "services": {
         "enable": true,
@@ -155,7 +155,7 @@
       ]
     },
     {
-      "name": "GDPR",
+      "name": "Local Databank",
       "hasChildren": true,
       "children": [
         {
